@@ -1,0 +1,37 @@
+include/ - *.h files
+lib/ - .ar
+obj/ - .o
+test/ - test_*.c
+src/ - *.c
+
+compilation ways
+
+way 1:
+1. the include in the c files will be :
+	#include "../include/bitarray.h"
+
+2. navigate to test folder
+
+3. terminal:
+	gd test_bitarray.c ../src/bitarray.c -o test1
+
+test1.exe exist now in ds/test folder
+** without "-o test1" we will get "a.out"
+
+****************************************************************
+
+way 2:
+1. regular include
+	#include "bitarray.h"
+
+2. navigate to ds folder
+
+3. terminal:
+	gd test/test_circular_buffer.c src/circular_buffer.c -I include -o test6
+	
+test1.exe exist now in ds folder
+** without "-o test1" we will get "a.out"
+
+
+
+

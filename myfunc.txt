@@ -1,0 +1,565 @@
+# name should be .myfunc
+
+# g++ are compiler-drivers of the GNU Compiler Collection
+alias gd+='g++ -std=c++98 -ansi -pedantic-errors -Wall -Wextra -g'
+alias gc+='g++ -std=c++98 -ansi -pedantic-errors -Wall -Wextra -DNDEBUG -O3'
+alias gd+11='g++ -std=c++11 -pedantic-errors -Wall -Wextra -g'
+alias gc+11='g++ -std=c++11 -pedantic-errors -Wall -Wextra -DNDEBUG -03'
+alias gd+clear='g++ -ansi -pedantic -Wall -Wextra -g'
+alias gc+clear='g++ -ansi -pedantic -Wall -Wextra -DNDEBUG -O3'
+alias gd+11clear='g++ -std=c++11 -pedantic -Wall -Wextra -g'
+alias gc+11clear='g++ -std=c++11 -pedantic -Wall -Wextra -DNDEBUG -03'
+
+
+# gcc compilation aliases: c89, c99, debug mode, release mode
+alias gd='gcc -ansi -pedantic-errors -Wall -Wextra -g'
+alias gc='gcc -ansi -pedantic-errors -Wall -Wextra -DNDEBUG -O3'
+alias gd9='gcc -std=c99 -pedantic-errors -Wall -Wextra -g'
+alias gc9='gcc -std=c99 -pedantic-errors -Wall -Wextra -DNDEBUG -O3'
+alias gco='gcc -Wall -c'
+
+# gcc without pedantic-errors - just warnings: 
+alias gcw='gcc -ansi -pedantic -Wall -Wextra -g -DNDEBUG -O3'
+alias gdw='gcc -ansi -pedantic -Wall -Wextra'
+
+# Valgrind alias
+alias vlg='valgrind --leak-check=yes --track-origins=yes'
+
+# git
+alias push='pushd ~/git; git add . ; git commit -m "`date`"; git push -u origin master; popd'
+alias configit='git config --global user.email moshexx@gmail.com; git config --global user.name moshe.cohen'
+function gitup()
+{
+    pushd ~/git; git add . ; 
+    git commit -m "$*"; 
+    git push -u origin master
+}
+
+#check
+alias mos='echo mosheCohen'
+
+#search command alias
+function his()
+{
+    history | grep $1;
+}
+
+#open file in preferd app
+alias openfile='xdg-open'
+
+#more
+alias cfile2='cp ~/Documents/progrem.c file2.c; gedit ./file2.c &'
+alias cfile3='cp ~/Documents/progrem.c file3.c; gedit ./file3.c &'
+alias zoom='firefox https://infinitylabs.zoom.us/j/2658763658?pwd=WEowVzJFdmx6ZC9EcWdqaVFmTzdrdz09 & disown "%firefox"'
+alias trans='firefox https://translate.google.co.il/ & disown "%firefox"'
+alias burn='firefox https://docs.google.com/spreadsheets/d/1xIkXQ2x98OdWhpDpUuF0V01D5Vrypu9hFraB1Acjt9E/edit#gid=494623244 & sleep 2 disown "%firefox"'
+alias google='firefox https://www.google.com & disown "%./firefox"'
+alias drive='firefox https://drive.google.com/drive/u/0/folders/1wxg4zeUTu7BKdCn805tBuWxdwzH3WJ1n & sleep 2 disown "%firefox"'
+alias bf='(pushd /opt/brain-fuel-linux-x64/ && ./brain-fuel & sleep 2 disown "%./brain-fuel"; popd)'
+alias dis='(discord & sleep 2 disown "%./Discord")'
+alias chrome='google-chrome'
+alias hack='pushd ~; code ./.myfunc &'
+alias refresh='source ~/.bashrc'
+
+
+function RamDrive()
+{
+  
+  sudo mkdir -p /mnt/ramdisk
+
+  sudo modprobe brd rd_nr=1 rd_size=20000
+  sudo mkfs.ext2 /dev/ram0
+  sudo mount /dev/ram0 /mnt/ramdisk
+  sudo chmod 777 /mnt/ramdisk
+  sudo chmod 777 /dev/ram0
+  pushd /mnt/ramdisk
+}
+
+function RemoveRamDrive()
+{
+  popd /mnt/ramdisk
+  sudo umount /mnt/ramdisk
+  sudo modprobe -r brd
+}
+
+function open() 
+{
+    name=$1
+    code ./src/$name.c & 
+    code ./test/test_$name.c & 
+    code ./include/$name.h & 
+}
+
+function startup()
+{
+    #name=$1
+    burn
+    dis
+    bf
+    #code &
+    #sleep 2
+    #disown "%code"
+    pushd git/ds
+    #open $name
+    sleep 5
+    clear
+    push
+    popd
+    clear
+}
+
+function cppfile
+{
+    name=$1
+    echo -e "#include <iostream>\n#include <fstream>\n\nint main()\n{\n\n\treturn 0;\n}" >> $name.cpp; code $name.cpp &
+}
+
+function hppfile()
+{
+    name=$1;
+    echo -e "#ifndef __ILRD_RD96_${name^^}_HPP__\n"\
+    "#define __ILRD_RD96_${name^^}_HPP__ \n\n\n\n\n\n\n\n"\
+    "#endif   /*__ILRD_RD96_${name^^}_HPP__ */" >> $name.hpp; code $name.hpp & 
+}
+
+# Create an empty CPP test file
+cpptest() {
+echo "#include <iostream>
+#include <fstream>
+#include <string>
+
+int main()
+{
+
+
+    return 0;
+}" >> ~/git/cpp_fs/lab/$1.cpp
+code ~/git/cpp_fs/lab/$1.cpp &
+pushd ~/git/cpp_fs/lab
+}
+
+function cfile() 
+{
+    name=$1
+    echo -e "#include <stdio.h>\n\nint main()\n{\n\n\treturn 0;\n}" >> $name.c; code $name.c & 
+}
+
+function hfile() 
+{
+    name=$1
+    echo -e "#ifndef __NAME_H__\n#define __NAME_H__\n#endif /* __NAME_H__ */\n" >> $name.h; code $name.h & 
+}
+
+# Create an empty C file for ws
+ws() {
+echo "/****************************************************************************
+*															 
+*	Worksheet: 	ws8.c	 			 						 
+*	Author: 		Moshe Cohen 			    						 
+*	Reviewer: 					    						 
+*	Date: 		11.2020 								 
+*															 
+*****************************************************************************/
+#include <stdio.h>
+#include <stdlib.h> /* malloc(), free () */
+
+int main()
+{
+    
+    
+    return 0;
+}" >> $1.c
+code $1.c &
+}
+
+##############################################################################
+#create system_programming C project (src, test, and header files)
+function sp()
+{
+	name=$1;
+    echo "#ifndef __${name^^}_H__
+#define __${name^^}_H__
+
+
+#endif   /*__${name^^}_H__*/" >> ~/git/system_programming/include/$name.h;
+    code ~/git/system_programming/include/$name.h &
+
+    #test file
+    echo "/*******************************************************************************
+--------------------------------------------------------------------------------
+*	file name: test_$name.c
+*	author: Moshe Cohen
+*	reviewer:
+
+--------------------------------------------------------------------------------
+*******************************************************************************/
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~includes~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#include <stdio.h> /*printf */
+#include <stdlib.h> /* malloc(), free () */
+
+#include \"$name.h\"
+
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~definitions~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#define RED printf(\"\033[0;31m\")
+#define GREEN printf(\"\033[0;32m\")
+#define YELLOW printf(\"\033[01;33m\")
+#define BLUE printf(\"\033[0;34m\")
+#define RESET printf(\"\033[0m\")
+#define RUN_TEST(result, name) {\\
+            printf(\"Test %s: \", name);\\
+            if (result)\\
+            {\\
+                GREEN;\\
+                printf(\"Success\n\");\\
+                RESET;\\
+            }\\
+            else\\
+            {\\
+                RED;\\
+                printf(\"Failed\n\");\\
+                RESET;\\
+            }\\
+        }
+
+enum successful {SUCCESS, FAILURE};
+enum matching {NO, YES};
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~test functions signatures~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~main~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+int main()
+{
+
+
+	return 0;
+}
+" >> ~/git/system_programming/test/test_$name.c;
+code ~/git/system_programming/test/test_$name.c &
+
+	#src file
+    echo "/*******************************************************************************
+--------------------------------------------------------------------------------
+*	file name: $name.c
+*	author: Moshe Cohen
+*	reviewer:
+
+--------------------------------------------------------------------------------
+*******************************************************************************/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~includes~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#include <stdio.h>
+#include <stdlib.h> /* malloc(), free () */
+#include <assert.h> /* assert */
+
+#include \"$name.h\"
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~definitions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~static functions signatures~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~API functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~static functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+}" >> ~/git/system_programming/src/$name.c;
+code ~/git/system_programming/src/$name.c &
+}
+
+
+##############################################################################
+#create data_structure C project (src, test, and header files)
+function ds()
+{
+	name=$1;
+    echo "#ifndef __${name^^}_H__
+#define __${name^^}_H__
+
+
+#endif   /*__${name^^}_H__*/" >> ~/git/ds/include/$name.h;
+    code ~/git/ds/include/$name.h &
+
+    #test file
+    echo "/*******************************************************************************
+--------------------------------------------------------------------------------
+*	file name: test_$name.c
+*	author: Moshe Cohen
+*	reviewer:
+
+--------------------------------------------------------------------------------
+*******************************************************************************/
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~includes~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#include <stdio.h> /*printf */
+#include <stdlib.h> /* malloc(), free () */
+
+#include \"$name.h\"
+
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~definitions~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#define RED printf(\"\033[0;31m\")
+#define GREEN printf(\"\033[0;32m\")
+#define YELLOW printf(\"\033[01;33m\")
+#define BLUE printf(\"\033[0;34m\")
+#define RESET printf(\"\033[0m\")
+#define RUN_TEST(result, name) {\\
+            printf(\"Test %s: \", name);\\
+            if (result)\\
+            {\\
+                GREEN;\\
+                printf(\"Success\n\");\\
+                RESET;\\
+            }\\
+            else\\
+            {\\
+                RED;\\
+                printf(\"Failed\n\");\\
+                RESET;\\
+            }\\
+        }
+
+enum successful {SUCCESS, FAILURE};
+enum matching {NO, YES};
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~test functions signatures~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~main~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+int main()
+{
+
+
+	return 0;
+}" >> ~/git/ds/test/test_$name.c;
+code ~/git/ds/test/test_$name.c &
+
+	#src file
+    echo "/*******************************************************************************
+--------------------------------------------------------------------------------
+*	file name: $name.c
+*	author: Moshe Cohen
+*	reviewer:
+
+--------------------------------------------------------------------------------
+*******************************************************************************/
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~includes~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#include <stdio.h>
+#include <stdlib.h> /* malloc(), free () */
+#include <assert.h> /* assert */
+
+#include \"$name.h\"
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~definitions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~static functions signatures~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~API functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~static functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+" >> ~/git/ds/src/$name.c;
+code ~/git/ds/src/$name.c &
+}
+
+##############################################################################
+##############################################################################
+#create CPP project (src, test, and header files)
+function cppproject()
+{
+	name=$1;
+	AUTHOR="Moshe Cohen"
+	TEXT_EDITOR="code"
+    echo "/******************************************************************************
+*		Descriptions - $name		      				  *
+*		Date: `date`					     				*
+*		Group: RD96						      				*
+*******************************************************************************/
+
+#ifndef ILRD_RD96_${name^^}_HPP
+#define ILRD_RD96_${name^^}_HPP
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*
+* Description:
+* Return value:
+* Errors:
+* Undefined behavior:
+*
+* Complexity:
+*/
+
+#endif   /*ILRD_RD96_${name^^}_HPP*/" >> ~/git/cpp_fs/include/$name.hpp;
+    $TEXT_EDITOR ~/git/cpp_fs/include/$name.hpp &
+
+    #test file
+    echo "/*******************************************************************************
+--------------------------------------------------------------------------------
+*	file name: test_$name.cpp
+*	author: $AUTHOR
+*	reviewer:
+
+--------------------------------------------------------------------------------
+*******************************************************************************/
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~includes~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#include <iostream>
+#include <cstring>
+#include <cassert>
+
+#include \"$name.hpp\"
+
+const char *RED_B = \"\033[01;31m\";
+const char *GREEN_B = \"\033[01;32m\";
+const char *YELLOW_B = \"\033[01;33m\";
+const char *BLUE_B = \"\033[01;34m\";
+const char *BLACK_B = \"\033[01;30m\";
+const char *WHITE_B = \"\033[01;37m\";
+const char *RED = \"\033[0;31m\";
+const char *GREEN = \"\033[0;32m\";
+const char *YELLOW = \"\033[0;33m\";
+const char *RESET = \"\033[0m\";
+void RunTest(bool result, const char *name)
+{
+    std::cout << YELLOW_B << \"Test \"  << name << \": \" << RESET;
+    if (result)
+    {
+        std::cout << GREEN_B << \"SUCCESS\" << RESET << std::endl;
+    }
+    else
+    {
+        std::cout << RED_B << \"FAILURE\" << RESET << std::endl;
+    }
+}
+
+using namespace ilrd;
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~definitions~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~functions~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+int main()
+{
+
+
+	return 0;
+}" >> ~/git/cpp_fs/test/test_$name.cpp;
+$TEXT_EDITOR ~/git/cpp_fs/test/test_$name.cpp &
+
+	#src file
+    echo "/*******************************************************************************
+--------------------------------------------------------------------------------
+*	file name: $name.cpp
+*	author: $AUTHOR
+*	reviewer:
+
+--------------------------------------------------------------------------------
+*******************************************************************************/
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~includes~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#include \"$name.hpp\"
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~definitions~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~functions~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+" >> ~/git/cpp_fs/src/$name.cpp;
+$TEXT_EDITOR ~/git/cpp_fs/src/$name.cpp &
+}
+
+
+##############################################################################
+##############################################################################
+#create project (src, test, and header files)
+function project()
+{
+	name=$1;
+	AUTHOR="Moshe Cohen"
+	TEXT_EDITOR="code"
+    echo "/******************************************************************************
+*		Descriptions - $name		      				  *
+*		Date: `date`					     				*
+*		Group: RD96						      				*
+*******************************************************************************/
+
+#ifndef ILRD_RD96_${name^^}_HPP
+#define ILRD_RD96_${name^^}_HPP
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*
+* Description:
+* Return value:
+* Errors:
+* Undefined behavior:
+*
+* Complexity:
+*/
+
+#endif   /*ILRD_RD96_${name^^}_HPP*/" >> ~/git/projects/include/$name.hpp;
+    $TEXT_EDITOR ~/git/projects/include/$name.hpp &
+
+    #test file
+    echo "/*******************************************************************************
+--------------------------------------------------------------------------------
+*	file name: test_$name.cpp
+*	author: $AUTHOR
+*	reviewer:
+
+--------------------------------------------------------------------------------
+*******************************************************************************/
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~includes~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#include <iostream>
+#include <cstring>
+#include <cassert>
+
+#include \"$name.hpp\"
+
+const char *RED_B = \"\033[01;31m\";
+const char *GREEN_B = \"\033[01;32m\";
+const char *YELLOW_B = \"\033[01;33m\";
+const char *BLUE_B = \"\033[01;34m\";
+const char *BLACK_B = \"\033[01;30m\";
+const char *WHITE_B = \"\033[01;37m\";
+const char *RED = \"\033[0;31m\";
+const char *GREEN = \"\033[0;32m\";
+const char *YELLOW = \"\033[0;33m\";
+const char *RESET = \"\033[0m\";
+void RunTest(bool result, const char *name)
+{
+    std::cout << YELLOW_B << \"Test \"  << name << \": \" << RESET;
+    if (result)
+    {
+        std::cout << GREEN_B << \"SUCCESS\" << RESET << std::endl;
+    }
+    else
+    {
+        std::cout << RED_B << \"FAILURE\" << RESET << std::endl;
+    }
+}
+
+using namespace ilrd;
+
+
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~definitions~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~functions~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+int main()
+{
+
+
+	return 0;
+}" >> ~/git/projects/test/test_$name.cpp;
+$TEXT_EDITOR ~/git/projects/test/test_$name.cpp &
+
+	#src file
+    echo "/*******************************************************************************
+--------------------------------------------------------------------------------
+*	file name: $name.cpp
+*	author: $AUTHOR
+*	reviewer:
+
+--------------------------------------------------------------------------------
+*******************************************************************************/
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~includes~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#include \"$name.hpp\"
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~definitions~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~functions~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+" >> ~/git/projects/src/$name.cpp;
+$TEXT_EDITOR ~/git/projects/src/$name.cpp &
+}
+
+
+
+#to oupdate:
+#source ~/.bashrc
+
