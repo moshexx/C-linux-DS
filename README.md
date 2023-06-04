@@ -1,2 +1,3 @@
 # C-linux-DS
 This is My very beginning with code. The repository focuses on C programming in a Linux environment, featuring data structure implementations and makefile configuration. Additionally, it showcases a personal library I created, which is utilized not only in this repository but also in my C++ repository.
+* One notable project in the repository is the "watchdog," a complex program designed to run in the background. Its primary function is to ensure the continuous operation of the main program. The watchdog program establishes a mutual protection mechanism with the business logic program, enabling any program associated with the product's logic to function as a watchdog itself.
